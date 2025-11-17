@@ -2,56 +2,30 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
-    private Rigidbody2D rb;
-    private Animator anim;
-    [SerializeField] private float speed = 2;
-    private bool canMove = false;
-    private int facingDir = 1;
+    private SpriteRenderer sr;
+    [SerializeField] private float receiveDamageColorDuration = 1f;
+
+    private float currentTime;
+    private float lastTime;
+
     private void Start()
     {
-        rb = GetComponent<Rigidbody2D>();
-        anim = GetComponentInChildren<Animator>();
+        sr = GetComponent<SpriteRenderer>();
     }
+
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.W))
+        currentTime = Time.time;
+        if (currentTime > lastTime + receiveDamageColorDuration)
         {
-            setAnimParams(false, true, false);
+            if (sr.color != Color.white)
+                sr.color = Color.white;
         }
-
-        if (Input.GetKeyDown(KeyCode.Q))
-        {
-            setAnimParams(true, false, false);
-        }
-
-        if (Input.GetKeyDown(KeyCode.E))
-        {
-            setAnimParams(false, false, true);
-        }
-
-        if (Input.GetKeyDown(KeyCode.R))
-        {
-            Flip();
-        }
-
-        if (!canMove)
-        {
-            rb.linearVelocity = new Vector2(0, rb.linearVelocity.y);
-            return;
-        }
-
-        rb.linearVelocity = new Vector2(facingDir * speed, rb.linearVelocity.y);
     }
-    private void setAnimParams(bool idle, bool move, bool attack)
+
+    public void TakeDamage()
     {
-        anim.SetBool("idle", idle);
-        anim.SetBool("move", move);
-        anim.SetBool("attack", attack);
-        canMove = move;
-    }
-    private void Flip()
-    {
-        transform.Rotate(0, 180, 0);
-        facingDir = -facingDir;
+        sr.color = Color.red;
+        lastTime = Time.time;
     }
 }

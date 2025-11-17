@@ -15,4 +15,9 @@ public class PlayerAnimationCallback : MonoBehaviour
         anim.SetBool("attack", false);
         player.setMove(true);
     }
+
+    private void EnableAttackOverlapEvent()
+    {
+        player.AttackOverlap();
+    }
 }
