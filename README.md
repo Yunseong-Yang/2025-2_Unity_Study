@@ -3,6 +3,7 @@
 사용 에셋
 - Warrior-Free Animation set V1.3(by Clembod)
 - Skeleton Sprite Pack(by Jesse Munguia)
+- Simple Top Down Character(by Immunity)
 
 Player Spritesheet Cutting Size: 69 x 44
 
@@ -11,3 +12,5 @@ Skeleton Spritesheet Cutting Size
 - Walk: 22 x 32(Y Offset: 1)
 - Attack: 43 x 37
 - Dead: 33 x 32 (Optional)
+
+Simple Character Spritesheet Cutting Size: 32 x 32
