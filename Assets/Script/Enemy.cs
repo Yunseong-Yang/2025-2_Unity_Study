@@ -4,10 +4,14 @@ public class Enemy : MonoBehaviour
 {
     private Rigidbody2D rb;
     private Animator anim;
+    private Collider2D col;
+
     private float facingDir = 1f;
     private bool canMove;
+    private bool attackCheck;
 
     [SerializeField] private float speed;
+    [SerializeField] private float reactBounceForce = 15f;
 
     [SerializeField] private float groundCheck;
     [SerializeField] private LayerMask groundLayerMask;
@@ -20,6 +24,7 @@ public class Enemy : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         anim = GetComponentInChildren<Animator>();
+        col = GetComponent<Collider2D>();
         setMove(true);
     }
 
@@ -36,7 +41,11 @@ public class Enemy : MonoBehaviour
             anim.SetBool("attack", true);
             rb.linearVelocity = new Vector2(0, rb.linearVelocity.y);
             setMove(false);
-            // Target에 대한 TakeDamage 로직 작성
+            if (attackCheck)
+            {
+                collider.GetComponent<Target>()?.TakeDamage();
+                setAttackCheck(false);
+            }
         }
 
         if (canMove)
@@ -45,12 +54,21 @@ public class Enemy : MonoBehaviour
 
     public void TakeDamage()
     {
-        // 추후 Dead 로직 작성
+        anim.enabled = false;
+        col.enabled = false;
+
+        rb.gravityScale = 12f;
+        rb.linearVelocity = new Vector2(rb.linearVelocity.x, reactBounceForce);
     }
 
     public void setMove(bool enable)
     {
         canMove = enable;
+    }
+
+    public void setAttackCheck(bool enable)
+    {
+        attackCheck = enable;
     }
 
     private void OnDrawGizmos()

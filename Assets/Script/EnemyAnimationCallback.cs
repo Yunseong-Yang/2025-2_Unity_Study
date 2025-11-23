@@ -11,6 +11,11 @@ public class EnemyAnimationCallback : MonoBehaviour
         enemy = GetComponentInParent<Enemy>();
     }
 
+    private void SuccessAttack()
+    { 
+        enemy.setAttackCheck(true);
+    }
+
     private void AttackEnd()
     {
         anim.SetBool("attack", false);
