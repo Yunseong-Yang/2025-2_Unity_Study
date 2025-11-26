@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Player : MonoBehaviour
 {
@@ -14,12 +15,15 @@ public class Player : MonoBehaviour
     [SerializeField] private float attackRadius;
     [SerializeField] private LayerMask enemyLayerMask;
 
+    [SerializeField] private GameManager gameManager;
+
     private bool canMove = true;
     private bool isGround = true;
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
         anim = GetComponentInChildren<Animator>();
+        gameManager = FindFirstObjectByType<GameManager>();
     }
 
     void Update()
@@ -79,6 +83,7 @@ public class Player : MonoBehaviour
         foreach(Collider2D collider in collider2DList)
         {
             collider.GetComponent<Enemy>().TakeDamage();
+            gameManager.IncrementKillCount();
         }
     }
 
